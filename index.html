@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dwi Melianti | Digital Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Segoe+UI:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Menggunakan variabel warna yang sama dengan Portofolio */
+        :root {
+            --primary-color: #ffb6c1; /* Light pink */
+            --secondary-color: #ff69b4; /* Hot pink */
+            --background-color: #fff5f7; /* Very light pink */
+            --text-color: #333;
+            --light-text: #666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow: hidden; /* Mencegah scroll bar dari animasi */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Kontainer utama untuk mengatur posisi di tengah */
+        .welcome-container {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 2; /* Memastikan konten utama berada di depan */
+        }
+
+        /* Kotak konten utama dengan efek transparan */
+        .welcome-box {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 3rem 4rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(255, 105, 180, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 600px;
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Judul utama dengan font elegan */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            animation: slideInDown 1s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        /* Paragraf dengan gaya profesional */
+        p {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            animation: slideInUp 1s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        /* Tombol dengan gaya yang sama seperti di portofolio */
+        .btn {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 12px 35px;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 20px rgba(255, 105, 180, 0.3);
+            animation: popIn 1s ease-out 0.6s forwards;
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+        }
+
+        /* Animasi untuk teks */
+        @keyframes slideInDown {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Dekorasi latar belakang animasi */
+        .decoration {
+            position: absolute;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: float 20s infinite linear;
+            z-index: -1; /* Mengirim ke lapisan paling belakang */
+        }
+        .decoration:nth-child(1) {
+            width: 250px;
+            height: 250px;
+            top: 10%;
+            left: 10%;
+            animation-duration: 25s;
+        }
+        .decoration:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            bottom: 15%;
+            right: 12%;
+            animation-duration: 18s;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+        
+        @media (max-width: 600px) {
+            .welcome-box {
+                padding: 2rem 1.5rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="decoration"></div>
+    <div class="decoration"></div>
+    
+    <div class="welcome-container">
+        <div class="welcome-box">
+            <h1>Dwi Melianti</h1>
+            <p>
+                Welcome to my digital space. A place where I document the journey of transforming ideas and challenges into elegant and functional digital solutions.
+            </p>
+            
+            <a class="btn" href="dashboard.html">Explore Portfolio</a>
+        </div>
+    </div>
+</body>
+</html>
