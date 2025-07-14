@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dwimell - Informatics Student</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary-color: #ffb6c1; /* Light pink */
+            --secondary-color: #ff69b4; /* Hot pink */
+            --background-color: #fff5f7; /* Very light pink */
+            --text-color: #333;
+            --light-text: #666;
+            --card-bg: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --tag-bg: #f0f0f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-color);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        section {
+            padding: 6rem 5%;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-grid {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+        }
+        
+        .hero-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 20px 30px rgba(255, 105, 180, 0.2);
+            border: 5px solid white;
+        }
+        
+        .grid-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(135deg, transparent 45%, var(--primary-color) 45%, var(--primary-color) 55%, transparent 55%),
+                linear-gradient(-135deg, transparent 45%, var(--primary-color) 45%, var(--primary-color) 55%, transparent 55%);
+            background-size: 30px 30px;
+            border-radius: 20px;
+            z-index: 1;
+            top: 15px;
+            left: 15px;
+            opacity: 0.7;
+        }
+        
+        .hero-content {
+            width: 100%;
+        }
+        
+        .hero-content h1 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .hero-content h2 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            font-weight: bold;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero-content h1, .hero-content h2, .hero-content p { opacity: 0; }
+        @keyframes floatText {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .hero-content h1 { animation: floatText 1s ease-out 0.2s forwards; }
+        .hero-content h2 {
+            animation: floatText 1s ease-out 0.5s forwards, gradientFlow 5s ease infinite;
+            background: linear-gradient(-45deg, #ff69b4, #ff1493, #ff6b6b);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; background-size: 400% 400%;
+        }
+        .hero-content p { animation: floatText 1s ease-out 0.8s forwards; }
+        .hero-grid { animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite alternate; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(255,105,180,0.3); }
+            to { box-shadow: 0 0 40px rgba(255,105,180,0.6); }
+        }
+        
+        #about h1, #education h1, #experience h1, #portfolio h1 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--secondary-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        #about h1::after, #education h1::after, #experience h1::after, #portfolio h1::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: var(--primary-color);
+            bottom: -10px;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        #about p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+        }
+        
+        .experience-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+        
+        .experience-year {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .experience-details {
+            margin-bottom: 3rem;
+        }
+        
+        .experience-details h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .experience-details h4 {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+        .experience-details p { font-size: 1rem; line-height: 1.6; }
+
+        /* --- Portfolio Styles --- */
+        .portfolio-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+            font-size: 1.1rem;
+            color: var(--light-text);
+        }
+
+        /* --- STYLE BARU UNTUK LOGO TEKNOLOGI --- */
+        .tech-logos {
+            display: flex;
+            gap: 2rem;
+            padding: 1.5rem 1rem;
+            overflow-x: auto;
+            margin-bottom: 3rem;
+            /* Menghilangkan scrollbar di Chrome, Safari, dan Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .tech-logos::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .logo-item {
+            flex: 0 0 auto; /* Mencegah logo menyusut */
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .logo-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .logo-item img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+            filter: grayscale(80%);
+            transition: filter 0.3s ease;
+        }
+        .logo-item:hover img {
+            filter: grayscale(0%);
+        }
+
+        .logo-item p {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--light-text);
+        }
+        /* --- AKHIR STYLE BARU --- */
+
+
+        .portfolio-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .portfolio-filters button {
+            background: var(--card-bg);
+            border: 1px solid var(--primary-color);
+            color: var(--secondary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-filters button:hover,
+        .portfolio-filters button.active {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .project-header i {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-top: 5px;
+        }
+
+        .project-category {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--light-text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .project-card h3 {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card p.summary {
+            font-size: 0.95rem;
+            color: var(--light-text);
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tags span {
+            background-color: var(--tag-bg);
+            color: var(--light-text);
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+        }
+
+        .view-details-btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        .view-details-btn:hover {
+            background-color: #ff85c1;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            color: var(--secondary-color);
+        }
+
+        .modal-project-image {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            background-color: #f0f0f0;
+        }
+        
+        .modal-content h4 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .modal-content p {
+            font-size: 1rem;
+            color: var(--light-text);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .modal-content .technologies-used h5 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .modal-content .project-tags {
+            margin-bottom: 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            color: var(--light-text);
+        }
+        
+        .adventure-block {
+            text-align: center;
+            padding: 2rem 0;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 2rem;
+            margin-bottom: 4rem;
+        }
+        .adventure-block h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; font-weight: 700;
+            color: var(--secondary-color); margin-bottom: 1rem;
+        }
+        .adventure-block p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem; color: var(--light-text); line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-content h2 { font-size: 2.5rem; }
+            section { padding: 4rem 5%; }
+            .experience-container { grid-template-columns: 1fr; }
+            .hero-grid { width: 250px; height: 250px; }
+            .modal-content { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">DWIMELL</div>
+            <ul class="nav-links">
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#portfolio">PROJECT</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="hero">
+        <div class="hero-content">
+            <h1>HI, I AM</h1>
+            <h2>DWI MELIANTI</h2>
+            <p>Informatics Engineering Student</p>
+            
+            <div class="hero-grid">
+                <div class="grid-pattern"></div>
+                <img src="https://i.imgur.com/EbgxOXY.jpeg" alt="Browny Star" class="hero-photo">
+            </div>
+        </div>
+    </section>
+    
+    <section id="about">
+        <h1>ABOUT ME</h1>
+        <p>A 22-year-old female student born on May 5, 2003, in Bandung. An active 4th-semester Informatics Engineering student at ITENAS with a little passion and hands-on experience in technology ehe,- Previously studied at SMA Negeri 2 Padalarang. Actively involved in tech-focused organizations, with skills in app development, database management, and programming languages such as MySQL, Figma, HTML, JavaScript, and Python.</p>
+        <p>Experienced in IoT development, web creation, and computer networking projects. Also passionate about video editing and photo editing.</p>
+    </section>
+    
+    <section id="education">
+        <h1>EDUCATION</h1>
+        <div class="experience-container">
+            <div class="experience-year">2023 - Present</div>
+            <div class="experience-details">
+                <h3>INFORMATIC STUDENT</h3>
+                <h4>Bandung, Indonesia</h4>
+                <p>Currently a 4th-semester student pursuing a degree in Informatics Engineering. Previously studied at SMA Negeri 2 Padalarang. Experienced in IoT development, web creation, and computer networking projects.</p>
+                <p>Relevant Courses : Web Programming, Database Programming, IoT Programming, Software Engineering, Operating Systems, Network Security, Business Intelligence, Object-Oriented Programming.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="experience">
+        <h1>EXPERIENCE</h1>
+        <div class="experience-container">
+            <div class="experience-year">2022</div>
+            <div class="experience-details">
+                <h3>Content Creator</h3>
+                <h4>FOBDG (Muslim Clothing Company)</h4>
+                <p>Created and managed social media content to enhance brand awareness and engagement. Designed promotional materials such as photos, videos, and copywriting tailored to the target market. Managed posting schedules and interacted with audiences to build a strong community. Collaborated with the marketing team to develop effective digital strategies.</p>
+            </div>
+        </div>
+        <div class="experience-container">
+            <div class="experience-year">2022 – 2023</div>
+            <div class="experience-details">
+                <h3>Early Childhood Teacher</h3>
+                <h4>Kindergarten Homeroom Teacher</h4>
+                <p>Served as a homeroom teacher for kindergarten students aged 4–5 years. Developed and delivered age-appropriate learning activities, managed classroom routines, and fostered emotional and social development. Maintained communication with parents and supported children's growth in a nurturing environment.</p>
+            </div>
+        </div>
+        <div class="experience-container">
+            <div class="experience-year">2023 – Present</div>
+            <div class="experience-details">
+                <h3>Webinar Host and Event Operator</h3>
+                <h4>Gamal Institute</h4>
+                <p>Managed and coordinated webinars and online events. Acted as the Master of Ceremony (MC) during seminars, facilitated smooth event flow, and ensured technical operations ran efficiently. Collaborated with the organizing team to enhance participant experience.</p>
+            </div>
+        </div>
+        <div class="experience-container">
+            <div class="experience-year">2024</div>
+            <div class="experience-details">
+                <h3>General Secretary</h3>
+                <h4>Grand Deliberation of HMIF ITENAS</h4>
+                <p>Managed administration and meeting documentation, prepared agendas and minutes, coordinated event logistics, and ensured compliance with organizational procedures.</p>
+            </div>
+        </div>
+        <div class="experience-container">
+            <div class="experience-year">2024</div>
+            <div class="experience-details">
+                <h3>Media and Publication Team</h3>
+                <h4>HMIF ITENAS</h4>
+                <p>Managed social media content and publications, designed promotional materials, developed communication strategies to increase engagement, and ensured clear and timely information dissemination.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <h1>MY PROJECTS</h1>
+        <p class="portfolio-intro">Here are some of the projects I have completed, each one representing the skills, dedication, and experience I have gained along the way.</p>
+
+        <div class="tech-logos">
+            <div class="logo-item">
+                <img src="images/logos/angular.png" alt="Angular">
+                <p>Angular</p>
+            </div>
+            <div class="logo-item">
+                <img src="images/logos/c++.png" alt="C++">
+                <p>C++</p>
+            </div>
+            <div class="logo-item">
+                <img src="images/logos/flashk.png" alt="Flask">
+                <p>Flask</p>
+            </div>
+            <div class="logo-item">
+                <img src="images/logos/html.png" alt="HTML5">
+                <p>HTML/CSS/JS</p>
+            </div>
+            <div class="logo-item">
+                <img src="images/logos/huawei.png" alt="Huawei">
+                <p>Huawei</p>
+            </div>
+            <div class="logo-item">
+                <img src="images/logos/laravel.png" alt="Laravel">
+                <p>Laravel</p>
+            </div>
+            <div class="logo-item">
+                <img src="images/logos/php.png" alt="PHP">
+                <p>PHP</p>
+            </div>
+            <div class="logo-item">
+                <img src="images/logos/postgres.png" alt="PostgreSQL">
+                <p>PostgreSQL</p>
+            </div>
+            <div class="logo-item">
+                <img src="images/logos/Python.png" alt="Python">
+                <p>Python</p>
+            </div>
+            <div class="logo-item">
+                <img src="images/logos/react.png" alt="React JS">
+                <p>React</p>
+            </div>
+            <div class="logo-item">
+                <img src="images/logos/sql.png" alt="MySQL">
+                <p>MySQL</p>
+            </div>
+        </div>
+        <div class="portfolio-filters">
+            <button class="active" data-filter="all">All</button>
+            <button data-filter="web">Web Development</button>
+            <button data-filter="iot">IoT</button>
+            <button data-filter="desktop">Desktop Application</button>
+            <button data-filter="graphics">Graphics & Animation</button>
+            <button data-filter="network">Network Engineering</button>
+        </div>
+
+        <div class="portfolio-grid">
+            <div class="project-card" data-category="web iot">
+                <div class="project-header">
+                    <i class="fas fa-heartbeat"></i>
+                    <div>
+                        <div class="project-category">Web Development</div>
+                        <h3>Heart Rate & Temperature Monitoring System</h3>
+                    </div>
+                </div>
+                <p class="summary">Real-time health monitoring with MAX30100 and MLX90614 sensors, visualized on a web interface.</p>
+                <div class="project-tags">
+                    <span>Flask</span><span>Python</span><span>IoT</span><span>+2 more</span>
+                </div>
+                <a href="#" class="view-details-btn" data-modal="project1">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="project-card" data-category="web">
+                <div class="project-header">
+                    <i class="fas fa-ticket-alt"></i>
+                    <div>
+                        <div class="project-category">Web Development</div>
+                        <h3>Arena Access - Ticketing Service</h3>
+                    </div>
+                </div>
+                <p class="summary">Tournament ticket sales system with distinct admin and user roles for managing ticket purchases.</p>
+                <div class="project-tags">
+                    <span>Laravel</span><span>PHP</span><span>MySQL</span><span>+1 more</span>
+                </div>
+                <a href="#" class="view-details-btn" data-modal="project2">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="project-card" data-category="iot">
+                <div class="project-header">
+                    <i class="fas fa-door-open"></i>
+                    <div>
+                        <div class="project-category">IoT</div>
+                        <h3>IoT Automatic Door System</h3>
+                    </div>
+                </div>
+                <p class="summary">Smart door system with ESP32 and ultrasonic sensors for automated access and enhanced security.</p>
+                <div class="project-tags">
+                    <span>ESP32</span><span>ESP8266</span><span>HC-SR04</span><span>+2 more</span>
+                </div>
+                <a href="#" class="view-details-btn" data-modal="project3">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="project-card" data-category="desktop">
+                <div class="project-header">
+                    <i class="fas fa-clinic-medical"></i>
+                    <div>
+                        <div class="project-category">Desktop Application</div>
+                        <h3>Polyclinic Application</h3>
+                    </div>
+                </div>
+                <p class="summary">Desktop app to manage patient visits and consultations, built with Delphi 7 and C++.</p>
+                <div class="project-tags">
+                    <span>Delphi 7</span><span>C++</span>
+                </div>
+                <a href="#" class="view-details-btn" data-modal="project4">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="project-card" data-category="graphics">
+                <div class="project-header">
+                    <i class="fas fa-photo-video"></i>
+                    <div>
+                        <div class="project-category">Graphics & Animation</div>
+                        <h3>Applied Computer Graphics Animation</h3>
+                    </div>
+                </div>
+                <p class="summary">Creating animations using applied computer graphics principles, implemented entirely in Python.</p>
+                <div class="project-tags">
+                    <span>Python</span>
+                </div>
+                <a href="#" class="view-details-btn" data-modal="project5">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="project-card" data-category="iot">
+                <div class="project-header">
+                    <i class="fas fa-water"></i>
+                    <div>
+                        <div class="project-category">IoT</div>
+                        <h3>Automatic Water Sensor Device</h3>
+                    </div>
+                </div>
+                <p class="summary">An IoT device for automatic water level control in a tank using an ultrasonic sensor and multiple components.</p>
+                <div class="project-tags">
+                    <span>IoT</span><span>Ultrasonic</span>
+                </div>
+                <a href="#" class="view-details-btn" data-modal="project6">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+             <div class="project-card" data-category="iot">
+                <div class="project-header">
+                    <i class="fas fa-parking"></i>
+                    <div>
+                        <div class="project-category">IoT</div>
+                        <h3>Automatic Parking Barrier System</h3>
+                    </div>
+                </div>
+                <p class="summary">An automatic parking barrier system using Arduino Uno to issue tickets and improve efficiency.</p>
+                <div class="project-tags">
+                    <span>Arduino Uno</span><span>IoT</span>
+                </div>
+                <a href="#" class="view-details-btn" data-modal="project7">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="project-card" data-category="network">
+                <div class="project-header">
+                    <i class="fas fa-network-wired"></i>
+                    <div>
+                        <div class="project-category">Network Engineering</div>
+                        <h3>Factory Network Design in Huawei eNSP</h3>
+                    </div>
+                </div>
+                <p class="summary">Complex factory network design using Huawei eNSP with VLAN, OSPF, WLAN, and more.</p>
+                <div class="project-tags">
+                    <span>Huawei eNSP</span><span>VLAN</span><span>OSPF</span>
+                </div>
+                <a href="#" class="view-details-btn" data-modal="project8">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+             <div class="project-card" data-category="web">
+                <div class="project-header">
+                    <i class="fas fa-image"></i>
+                    <div>
+                        <div class="project-category">Web Development</div>
+                        <h3>Digital Image Detection Web App</h3>
+                    </div>
+                </div>
+                <p class="summary">A Flask web app for detecting and processing digital images through an online interface.</p>
+                <div class="project-tags">
+                    <span>Flask</span><span>Python</span>
+                </div>
+                <a href="#" class="view-details-btn" data-modal="project9">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+             <div class="project-card" data-category="web">
+                <div class="project-header">
+                    <i class="fas fa-couch"></i>
+                    <div>
+                        <div class="project-category">Web Development</div>
+                        <h3>Furniture Sales Web App (Looksy)</h3>
+                    </div>
+                </div>
+                <p class="summary">A comprehensive e-commerce platform for furniture sales built with Java and Spring Boot.</p>
+                <div class="project-tags">
+                    <span>Java</span><span>Spring Boot</span>
+                </div>
+                <a href="#" class="view-details-btn" data-modal="project10">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="project-card" data-category="web">
+               <div class="project-header">
+                   <i class="fas fa-tshirt"></i>
+                   <div>
+                       <div class="project-category">Web Development</div>
+                       <h3>Clothing Sales Web App (Looksy)</h3>
+                   </div>
+               </div>
+               <p class="summary">A dynamic clothing sales web app with a responsive UI, built using React.</p>
+               <div class="project-tags">
+                   <span>React</span><span>JavaScript</span>
+               </div>
+               <a href="#" class="view-details-btn" data-modal="project11">View Details <i class="fas fa-arrow-right"></i></a>
+           </div>
+
+        </div>
+    </section>
+
+    <div class="adventure-block">
+        <h2>Life is a beautiful, unpredictable journey</h2>
+        <p>Great things take time. Every step forward is a step toward growth.</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Dwimell.</p>
+    </footer>
+
+    <div id="project1" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="images/1.png" alt="Heart Rate and Body Temperature Monitoring System" class="modal-project-image">
+            <h4>Web-Based Heart Rate and Body Temperature Monitoring System</h4>
+            <p>This project focuses on the development of a real-time health monitoring system capable of detecting heart rate and body temperature. Data is acquired through the integration of a MAX30100 Heart-Rate Oximeter Pulse Sensor and a Non-Contact IR Temperature Sensor MLX90614 GY-906 HW-691 Contactless Temperature. The detected results are then visualized on a web interface, making it easier for users to accurately monitor their body condition.</p>
+            <div class="technologies-used">
+                <h5>Technologies Used:</h5>
+                <div class="project-tags">
+                    <span>Flask</span><span>Python</span><span>IoT</span><span>MAX30100</span><span>MLX90614</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="project2" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="images/dua.jpg" alt="Arena Access - Ticketing Service" class="modal-project-image">
+            <h4>Web-Based Ticketing Service Application (Arena Access)</h4>
+            <p>Development of a web application for a tournament match ticket sales system. This application supports two main user roles: an Admin for managing the entire ticket purchasing process, and a User as a buyer who can select and purchase match tickets. The project was built using the Laravel framework, offering an efficient and user-friendly ticket management solution.</p>
+            <div class="technologies-used">
+                <h5>Technologies Used:</h5>
+                <div class="project-tags">
+                    <span>Laravel</span><span>PHP</span><span>MySQL</span><span>Web Development</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="project3" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="images/tiga.png" alt="IoT Automatic Door System" class="modal-project-image">
+            <h4>IoT Design: Automatic Door System</h4>
+            <p>This project involves the design and implementation of an IoT-based automatic door system. Utilizing an ESP32 microcontroller as the system's brain, an HC-SR04 ultrasonic sensor for object detection, an LCD for information display, and a Servo Motor actuator for door control. Integration with ESP8266 enables automatic door locking functionality, enhancing user convenience and security.</p>
+            <div class="technologies-used">
+                <h5>Technologies Used:</h5>
+                <div class="project-tags">
+                    <span>ESP32</span><span>ESP8266</span><span>HC-SR04</span><span>Servo</span><span>LCD</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="project4" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="images/empat.png" alt="Polyclinic Application" class="modal-project-image">
+            <h4>Polyclinic Application</h4>
+            <p>Development of a desktop application for managing patient visits and consultations in a hospital. This application is designed for use by Patients for registration and by Admins for managing schedules and visit data. The Polyclinic application is implemented using Delphi 7 with C++ programming language support, offering a structured clinic management solution.</p>
+            <div class="technologies-used">
+                <h5>Technologies Used:</h5>
+                <div class="project-tags">
+                    <span>Delphi 7</span><span>C++</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="project5" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="images/lima.png" alt="Applied Computer Graphics Animation" class="modal-project-image">
+            <h4>Applied Computer Graphics Animation</h4>
+            <p>This project focuses on creating animations using principles of applied computer graphics. The implementation was done entirely using the Python programming language, demonstrating capabilities in programmatic visualization and manipulation of graphical objects.</p>
+            <div class="technologies-used">
+                <h5>Technologies Used:</h5>
+                <div class="project-tags">
+                    <span>Python</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="project6" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="images/enam.png" alt="Automatic Water Sensor Device" class="modal-project-image">
+            <h4>Automatic Water Sensor Device (Watertank Sensor)</h4>
+            <p>Development of an IoT device for an automatic water level control system in a tank. This device utilizes a combination of an Ultrasonic sensor for water level detection, a Switch for manual input, a Relay for electrical flow control, a Keypad for user interaction, LEDs as visual indicators, an LCD for information display, a Buzzer for alerts, and a Servo for actuation. The system is designed to facilitate automatic water filling and stopping for users.</p>
+            <div class="technologies-used">
+                <h5>Technologies Used:</h5>
+                <div class="project-tags">
+                    <span>IoT</span><span>Ultrasonic Sensor</span><span>Relay</span><span>Keypad</span><span>Servo</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="project7" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="images/tujuh.png" alt="Automatic Parking Barrier System" class="modal-project-image">
+            <h4>Automatic Parking Barrier System</h4>
+            <p>This project is the implementation of an automatic parking barrier system using an Arduino Uno microcontroller. The system is designed to facilitate the entry and exit of vehicles by automatically issuing parking tickets, improving efficiency and reducing the need for manual intervention in parking areas.</p>
+            <div class="technologies-used">
+                <h5>Technologies Used:</h5>
+                <div class="project-tags">
+                    <span>Arduino Uno</span><span>IoT</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="project8" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="images/jarkom.png" alt="Factory Network Design" class="modal-project-image">
+            <h4>Factory Network Design in Huawei eNSP</h4>
+            <p>This project involves the design and implementation of a complex network infrastructure for a factory environment using the Huawei eNSP simulator. The configuration includes the application of important technologies and protocols such as VLAN, OSPF, WLAN, NAT, ACL, and AAA for user access management.</p>
+            <div class="technologies-used">
+                <h5>Technologies Used:</h5>
+                <div class="project-tags">
+                    <span>Huawei eNSP</span><span>VLAN</span><span>OSPF</span><span>WLAN</span><span>NAT</span><span>ACL</span><span>AAA</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="project9" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="images/pcd.png" alt="Digital Image Detection Web App" class="modal-project-image">
+            <h4>Web Application for Digital Image Detection and Processing</h4>
+            <p>Development of a web application capable of performing detection and processing on digital images. This application provides an online interface for users to upload images and apply various image processing algorithms. The project is implemented using the Flask framework, demonstrating capabilities in visual data processing through a web platform.</p>
+            <div class="technologies-used">
+                <h5>Technologies Used:</h5>
+                <div class="project-tags">
+                    <span>Flask</span><span>Python</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="project10" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="images/looksy.png" alt="Furniture Sales Web App" class="modal-project-image">
+            <h4>Furniture Sales Web Application (Looksy)</h4>
+            <p>Development of a comprehensive e-commerce platform for furniture sales. This web application is designed to be accessible by Buyers to browse and purchase products, and by Sellers to manage inventory and orders. The project is built using the Java programming language with the Spring Boot framework, offering a robust and scalable digital business solution.</p>
+            <div class="technologies-used">
+                <h5>Technologies Used:</h5>
+                <div class="project-tags">
+                    <span>Java</span><span>Spring Boot</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="project11" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="images/looks.png" alt="Clothing Sales Web App" class="modal-project-image">
+            <h4>Clothing Sales Web Application (Looksy)</h4>
+            <p>Development of a web application for clothing sales, providing full functionality for Sellers to manage products and orders, and for Buyers to browse catalogs and make purchases. The application is implemented using JavaScript with the React library, resulting in a dynamic and responsive user interface.</p>
+            <div class="technologies-used">
+                <h5>Technologies Used:</h5>
+                <div class="project-tags">
+                    <span>React</span><span>JavaScript</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Modal functionality
+            const viewDetailsButtons = document.querySelectorAll('.view-details-btn');
+            const modals = document.querySelectorAll('.modal-overlay');
+            const closeButtons = document.querySelectorAll('.modal-close');
+
+            viewDetailsButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const modalId = this.getAttribute('data-modal');
+                    const targetModal = document.getElementById(modalId);
+                    if (targetModal) {
+                        document.body.classList.add('modal-open');
+                        targetModal.classList.add('active');
+                    }
+                });
+            });
+
+            const closeModal = (modal) => {
+                document.body.classList.remove('modal-open');
+                modal.classList.remove('active');
+            };
+
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    closeModal(this.closest('.modal-overlay'));
+                });
+            });
+
+            modals.forEach(modal => {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        closeModal(this);
+                    }
+                });
+            });
+            
+            // Portfolio filter functionality
+            const filterButtons = document.querySelectorAll('.portfolio-filters button');
+            const projectCards = document.querySelectorAll('.portfolio-grid .project-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+
+                    projectCards.forEach(card => {
+                        const categories = card.getAttribute('data-category').split(' ');
+                        if (filter === 'all' || categories.includes(filter)) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
